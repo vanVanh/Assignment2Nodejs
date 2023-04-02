@@ -1,0 +1,22 @@
+<%- include('../inc/top') %>
+
+<div class="container">
+    <div class="row col-12 col-md-8 m-auto mt-5 mb-5 border border-dark-subtle p-5 rounded-5 shadow-lg ">
+        name: <%= obj.name %>
+        <br>
+        category: <%= obj.id_category.name %>
+        <br>
+        price: <%= new Intl.NumberFormat('vi-VN', { style: 'currency' , currency: 'VND'}).format(obj.price) %>
+        <br>
+        description: <%= obj.description %>
+        <br>
+        status: <%= obj.status %>
+        <br>
+        quantity: <%= obj.quantity %>
+        <br>
+        manufacturer: <%= obj.manufacturer %>
+        <br>
+    </div>
+</div>
+
+<%- include('../inc/bottom') %>

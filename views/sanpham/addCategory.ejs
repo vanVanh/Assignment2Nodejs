@@ -1,0 +1,35 @@
+<%- include('../inc/top') %>
+
+<div class="container-fluid">
+    <div class="row bg-secondary-subtle">
+        <h1>Add category</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                <li class="breadcrumb-item"><a href="#">product</a></li>
+                <li class="breadcrumb-item active" aria-current="page">addcategory</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="row col-12 col-md-6 m-auto mt-5 mb-5 border border-dark-subtle p-5 rounded-5 shadow-lg ">
+            <form method="get" action="">
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input name="Name" type="text" class="form-control border border-dark-subtle" placeholder="name category..." id="">
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-outline-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<%- include('../inc/bottom') %>
