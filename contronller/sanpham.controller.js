@@ -141,6 +141,7 @@ exports.addCategory = async (req, res, next) => {
   res.render("sanpham/addCategory");
 };
 
+// [get] /sp/category/edit/:id
 exports.editCategory = async (req, res, next) => {
 
   let id = req.params.id;
@@ -149,7 +150,7 @@ exports.editCategory = async (req, res, next) => {
   
   res.render("sanpham/editCategory", {obj});
 };
-
+// [post] /sp/category/edit/:id
 exports.updateCategory = async (req, res, next) => {
 
   let id = req.params.id;
@@ -167,7 +168,7 @@ exports.updateCategory = async (req, res, next) => {
   }
   res.redirect("/sp/category");
 };
-
+// [post] /sp/category/delete/:id
 exports.deleteCategory = async (req, res, next) => {
 
   let id = req.params.id;

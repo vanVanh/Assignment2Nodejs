@@ -2,84 +2,83 @@ const models = require("../models/account.model");
 
 // [get] /users/
 exports.listUser = async (req, res, next) => {
+  
+  let search = null;
+  if(typeof(req.query.name) != "undefined"){
+    search = {username: req.query.name}
+  }
 
-   var account = await models.account.find();
+  var account = await models.account.find(search);
 
-    let role = ['admin', 'user']
 
-    res.render('user/listUser',{account, role});
-}
+  res.render("user/listUser", { account});
+};
 
 // [post] /users/add
 exports.addUser = async (req, res, next) => {
+  if ((req.method = "POST")) {
+    let obj = new models.account();
+    obj.fullname = req.body.fullname;
+    obj.username = req.body.username;
+    obj.password = req.body.password;
+    obj.email = req.body.email;
+    obj.role = req.body.role;
 
-    if ((req.method = "POST")) {
-        let obj = new models.account();
-        obj.fullname = req.body.fullname;
-        obj.username = req.body.username;
-        obj.password = req.body.password;
-        obj.email = req.body.email;
-        obj.role = req.body.role;
-        
-        try {
-          let newData = await obj.save();
-          console.log(newData);
-        } catch (error) {
-          console.log(error);
-        }
-      }
+    try {
+      let newData = await obj.save();
+      console.log(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-    res.render('user/addUser')
-}
+  res.render("user/addUser");
+};
 
 // [get] /users/edit/:id
 exports.editAccount = async (req, res, next) => {
+  let id = req.params.id;
+  var account = await models.account.findById(id);
 
-    let id = req.params.id
-    var account = await models.account.findById(id);
- 
-    let role = ['admin', 'user']
- 
-    res.render('user/edit',{account, role});
-}
+  let role = ["admin", "user"];
+
+  res.render("user/edit", { account, role });
+};
 
 // [post] /users/edit/:id
- exports.updateAccount= async (req, res, next) => {
+exports.updateAccount = async (req, res, next) => {
+  let id = req.params.id;
+  if ((req.method = "POST")) {
+    let obj = new models.account();
+    obj.fullname = req.body.fullname;
+    obj.username = req.body.username;
+    obj.password = req.body.password;
+    obj.email = req.body.email;
+    obj.role = req.body.role;
 
-    let id = req.params.id
-    if ((req.method = "POST")) {
-        let obj = new models.account();
-        obj.fullname = req.body.fullname;
-        obj.username = req.body.username;
-        obj.password = req.body.password;
-        obj.email = req.body.email;
-        obj.role = req.body.role;
+    obj._id = id;
 
-        obj._id = id
-        
-        try {
-        await models.account.findByIdAndUpdate({_id: id}, obj);
-          console.log(obj);
-        } catch (error) {
-          console.log(error);
-        }
-      }
+    try {
+      await models.account.findByIdAndUpdate({ _id: id }, obj);
+      console.log(obj);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-    res.redirect('/users/')
-}
+  res.redirect("/users/");
+};
 
 exports.deleteAccount = async (req, res, next) => {
-    let id = req.params.id;
-    console.log(id);
-  
-    try {
-        await models.account.findByIdAndDelete({_id: id});
-        console.log("delete successfully");
-    } catch {
-        console.log('Lỗi server!');
-    }
-  
-  
-  
-    res.redirect('/users/')
+  let id = req.params.id;
+  console.log(id);
+
+  try {
+    await models.account.findByIdAndDelete({ _id: id });
+    console.log("delete successfully");
+  } catch {
+    console.log("Lỗi server!");
   }
+
+  res.redirect("/users/");
+};
