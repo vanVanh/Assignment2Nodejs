@@ -2,33 +2,33 @@
 
 <div class="container-fluid">
     <div class="row bg-secondary-subtle">
-        <h1>Add user</h1>
+        <h1>Edit user</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                <li class="breadcrumb-item"><a href="/"><i class="fa fa-home"></i> Home</a></li>
                 <li class="breadcrumb-item"><a href="#">user</a></li>
-                <li class="breadcrumb-item active" aria-current="page">adduser</li>
+                <li class="breadcrumb-item active" aria-current="page">edituser</li>
             </ol>
         </nav>
     </div>
 
     <div class="container">
-        <div class="row col-12 col-md-6 m-auto mt-5 mb-5 border border-dark-subtle p-5 rounded-5 shadow-lg ">
+        <div class="row col-12 col-md-8 m-auto mt-5 mb-5 border border-dark-subtle p-5 rounded-5 shadow-lg ">
             <form method="post" action="">
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">FullName</label>
                     <div class="col-sm-10">
-                        <input name="fullname" type="text" class="form-control border border-dark-subtle" id="">
+                        <input name="fullname" type="text" class="form-control border border-dark-subtle" id="" value="<%= account.fullname %>">
                     </div>
                 </div>
     
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Username</label>
                     <div class="col-sm-10">
-                        <input name="username" type="text" class="form-control border border-dark-subtle" id="">
+                        <input name="username" type="text" class="form-control border border-dark-subtle" id="" value="<%= account.username %>">
                     </div>
                 </div>
-                
+
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Password</label>
                     <div class="col-sm-10">
@@ -39,7 +39,7 @@
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                        <input name="email" type="email" class="form-control border border-dark-subtle" id="inputEmail3">
+                        <input name="email" type="email" class="form-control border border-dark-subtle" id="inputEmail3" value="<%= account.email %>" >
                     </div>
                 </div>
                 
@@ -48,8 +48,14 @@
                     <div class="col-sm-10">
                         <select name="role" class="form-select" aria-label="Default select example">
                             <option selected>select role</option>
-                            <option value="admin">admin</option>
-                            <option value="user">user</option>
+                            <% role.forEach(item => {
+                                let selected = '';
+                                if(item == account.role){
+                                    selected= 'selected'
+                                }
+                                %>
+                                <option <%= selected %> value="<%= item %>"><%= item %></option>
+                            <% })  %>    
                           </select>
                     </div>
                 </div>

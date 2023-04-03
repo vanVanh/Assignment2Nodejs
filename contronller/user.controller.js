@@ -1,69 +1,69 @@
-exports.listUser = (req, res, next) => {
+const models = require("../models/account.model");
 
-    let account = [
-        {
-            fullname: 'Nguyễn Việt Anh',
-            username: 'vanhHutHoa',
-            email: 'vanh@gmail.com',
-            password: 'vanh1213',
-            role: 'admin'
-        },
-        {
-            fullname: 'Ngô Tiến Đạt',
-            username: 'datzeru',
-            email: 'dat@gmail.com',
-            password: 'dat1213',
-            role: 'user'
-        },
-        {
-            fullname: 'Trần Thu Hiền',
-            username: 'hien1',
-            email: 'hien@gmail.com',
-            password: 'hien8181',
-            role: 'user'
-        },
-        {
-            fullname: 'Nguyễn Chí Thuận',
-            username: 'thuanSky',
-            email: 'thuan@gmail.com',
-            password: 'thuan8120348',
-            role: 'user'
-        },
-        {
-            fullname: 'Đào Văn Bình',
-            username: 'binhBun',
-            email: 'binh@gmail.com',
-            password: 'binh123123',
-            role: 'admin'
-        },
-        {
-            fullname: 'Nguyễn Huỳnh Tiên',
-            username: 'thor',
-            email: 'thor@gmail.com',
-            password: 'thor242423',
-            role: 'user'
-        },
-        {
-            fullname: 'Nguyễn Duy Dưỡng',
-            username: 'duong1minute',
-            email: 'duong@gmail.com',
-            password: 'duong743y127',
-            role: 'user'
-        },
-        {
-            fullname: 'Nguyễn Thế Ngọc',
-            username: 'ngocBadBoy',
-            email: 'ngoc@gmail.com',
-            password: 'ngocBadBoy123',
-            role: 'user'
-        },
-    ]
+// [get] /users/
+exports.listUser = async (req, res, next) => {
+
+   var account = await models.account.find();
 
     let role = ['admin', 'user']
 
-    res.render('user/listUser',{msg: account, item: role});
+    res.render('user/listUser',{account, role});
 }
 
-exports.addUser = (req, res, next) => {
+// [post] /users/add
+exports.addUser = async (req, res, next) => {
+
+    if ((req.method = "POST")) {
+        let obj = new models.account();
+        obj.fullname = req.body.fullname;
+        obj.username = req.body.username;
+        obj.password = req.body.password;
+        obj.email = req.body.email;
+        obj.role = req.body.role;
+        
+        try {
+          let newData = await obj.save();
+          console.log(newData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
     res.render('user/addUser')
+}
+
+// [get] /users/edit/:id
+exports.editAccount = async (req, res, next) => {
+
+    let id = req.params.id
+    var account = await models.account.findById(id);
+ 
+    let role = ['admin', 'user']
+ 
+    res.render('user/edit',{account, role});
+}
+
+// [post] /users/edit/:id
+ exports.updateAccount= async (req, res, next) => {
+
+    let id = req.params.id
+    if ((req.method = "POST")) {
+        let obj = new models.account();
+        obj.fullname = req.body.fullname;
+        obj.username = req.body.username;
+        obj.password = req.body.password;
+        obj.email = req.body.email;
+        obj.role = req.body.role;
+
+        obj._id = id
+        
+        try {
+        await models.account.findByIdAndUpdate({_id: id}, obj);
+          console.log(obj);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+    res.redirect('/users/')
 }
