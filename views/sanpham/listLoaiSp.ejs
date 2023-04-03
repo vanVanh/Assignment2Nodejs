@@ -38,7 +38,8 @@
                                         class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
                                         <i class="bi bi-pen"></i>
                                     </a>
-                                    <a href="/sp/category/delete/<%= obj._id %>"
+                                    <a href="#" data-bs-target="#exampleModal"  data-bs-toggle="modal" 
+                                    data-bs-whatever="<%= obj._id %>"
                                         class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
                                         <i class="bi bi-trash"></i>
                                     </a>
@@ -66,5 +67,53 @@
             </div>
         </div>
     </div>
+
+    
+    <!-- dialog confirm  -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete category?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Do you want delete this category?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="btnDelete" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- delete hidden form -->
+     <form method="post" name="delete-form"></form>
+     <script>
+         var recipient;
+         var deleteForm = document.forms['delete-form']
+         const exampleModal = document.getElementById('exampleModal')
+         if (exampleModal) {
+             exampleModal.addEventListener('show.bs.modal', event => {
+                 // Button that triggered the modal
+                 const button = event.relatedTarget
+                 // Extract info from data-bs-* attributes
+                 recipient = button.getAttribute('data-bs-whatever')
+                 // If necessary, you could initiate an Ajax request here
+                 // and then do the updating in a callback.
+                 // Update the modal's content.
+                 const modalBodyInput = exampleModal.querySelector('.modal-body input')
+ 
+                 modalBodyInput.value = recipient
+             })
+         }
+ 
+         var btnDelete = document.getElementById('btnDelete');
+         btnDelete.onclick = () => {
+             deleteForm.action = '/sp/category/delete/' + recipient;
+             deleteForm.submit();
+         }
+     </script>
 
     <%- include('../inc/bottom') %>

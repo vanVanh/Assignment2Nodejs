@@ -59,7 +59,7 @@ exports.editProduct= async (req, res, next) => {
 
   let id = req.params.id;
   let obj = await models.product.findById(id);
-  console.log(obj.status);
+  console.log(obj.status)
   let status = [
     {name: 'new'},
     {name: 'used'}

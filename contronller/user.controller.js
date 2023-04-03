@@ -82,3 +82,4 @@ exports.deleteAccount = async (req, res, next) => {
 
   res.redirect("/users/");
 };
+  
