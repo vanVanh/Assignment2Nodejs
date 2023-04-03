@@ -1,5 +1,6 @@
 const models = require("../models/sanpham.model");
 
+//product
 // [get] /sp/product
 exports.listSp = async (req, res, next) => {
   var category = await models.category.find();
@@ -13,12 +14,6 @@ exports.listSp = async (req, res, next) => {
   var product = await models.product.find(search).populate("id_category");
 
   res.render("sanpham/listSp", { product, category });
-};
-
-// [get] /sp/category
-exports.category = async (req, res, next) => {
-  var list = await models.category.find();
-  res.render("sanpham/listLoaiSp", { list });
 };
 
 // [post] /sp/addproduct
@@ -45,11 +40,6 @@ exports.addProduct = async (req, res, next) => {
   }
 
   res.render("sanpham/addproduct", { list });
-};
-
-// [post] /sp/addcategory
-exports.addCategory = (req, res, next) => {
-  res.render("sanpham/addCategory");
 };
 
 // [get] /sp/product/detail/:id
@@ -126,3 +116,67 @@ exports.deleteProduct = async (req, res, next) => {
 
   res.redirect('/sp/product')
 }
+
+// category
+// [get] /sp/category
+exports.category = async (req, res, next) => {
+  var list = await models.category.find();
+  res.render("sanpham/listLoaiSp", { list });
+};
+
+// [post] /sp/addcategory
+exports.addCategory = async (req, res, next) => {
+
+  if ((req.method = "POST")) {
+    let obj = new models.category();
+    obj.name = req.body.name;
+
+    try {
+      let newData = await obj.save();
+      console.log(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  res.render("sanpham/addCategory");
+};
+
+exports.editCategory = async (req, res, next) => {
+
+  let id = req.params.id;
+
+  let obj = await models.category.findById(id)
+  
+  res.render("sanpham/editCategory", {obj});
+};
+
+exports.updateCategory = async (req, res, next) => {
+
+  let id = req.params.id;
+  if ((req.method = "POST")) {
+    let obj = new models.category();
+    obj.name = req.body.name;
+    obj._id = id;
+
+    try {
+      await models.category.findByIdAndUpdate({_id: id}, obj)
+      console.log(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  res.redirect("/sp/category");
+};
+
+exports.deleteCategory = async (req, res, next) => {
+
+  let id = req.params.id;
+
+  try {
+    await models.category.findByIdAndDelete({_id: id})
+  } catch (error) {
+    console.log(error);
+  }
+  
+  res.redirect("/sp/category");
+};

@@ -44,7 +44,7 @@ const productSchema = new db.mongoose.Schema(
 
 const categorySchema = new db.mongoose.Schema(
   {
-    name: { type: String, require: true },
+    name: { type: String, required: true },
   },
   {
     timestamps: true,
