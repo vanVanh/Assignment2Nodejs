@@ -67,3 +67,19 @@ exports.editAccount = async (req, res, next) => {
 
     res.redirect('/users/')
 }
+
+exports.deleteAccount = async (req, res, next) => {
+    let id = req.params.id;
+    console.log(id);
+  
+    try {
+        await models.account.findByIdAndDelete({_id: id});
+        console.log("delete successfully");
+    } catch {
+        console.log('Lỗi server!');
+    }
+  
+  
+  
+    res.redirect('/users/')
+  }
