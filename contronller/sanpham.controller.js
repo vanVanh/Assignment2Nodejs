@@ -69,27 +69,11 @@ exports.editProduct= async (req, res, next) => {
 
   let id = req.params.id;
   let obj = await models.product.findById(id);
-  let status = [{name: 'New'},{name: 'Used'}]
-
-  // if(req.method == 'POST'){
-    
-  //   let updateData = new models.product();
-  //   updateData.name = req.body.name;
-  //   updateData.id_category = req.body.category;
-  //   updateData.price = req.body.price;
-  //   updateData.description = req.body.description;
-  //   updateData.status = req.body.status;
-  //   updateData.quantity = req.body.quantity;
-  //   updateData.image = req.body.image;
-  //   updateData.manufacturer = req.body.manufacturer;
-  //   updateData._id = id
-  //   try {
-  //     await models.product.findByIdAndUpdate({_id: id}, updateData);
-  //     console.log(updateData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  console.log(obj.status);
+  let status = [
+    {name: 'new'},
+    {name: 'used'}
+  ]
 
   res.render("sanpham/editProduct", {list, obj, status});
 };

@@ -53,8 +53,15 @@
                     <div class="col-sm-10">
                         <select name="status" class="form-select" aria-label="Default select example">
                             <option  selected>select option</option>
-                            <% status.forEach( item => {%>
-                                <option value="<%= item.name %>">
+                            <% status.forEach( item => {
+                                
+                                let selected = '';
+                                if(item.name ==obj.status){
+                                    selected = 'selected'
+                                }
+
+                                %>
+                                <option <%= selected %> value="<%= item.name %>">
                                     <%= item.name %>
                                 </option>
                             <% }); %>    
