@@ -5,15 +5,21 @@ const models = require("../models/sanpham.model");
 exports.listSp = async (req, res, next) => {
   var category = await models.category.find();
 
+  let dk_sort = null;
+  let type = req.query.type;
+  if(typeof(req.query.sort) != 'undefined'){
+    dk_sort = {price: req.query.type}
+  }
+
   // search theo category
   let search = null;
   if (typeof (req.query.category) != "undefined") {
     search = { id_category: req.query.category };
   }
 
-  var product = await models.product.find(search).populate("id_category");
+  var product = await models.product.find(search).populate("id_category").sort(dk_sort);
 
-  res.render("sanpham/listSp", { product, category });
+  res.render("sanpham/listSp", { product, category, type });
 };
 
 // [post] /sp/addproduct
@@ -120,8 +126,13 @@ exports.deleteProduct = async (req, res, next) => {
 // category
 // [get] /sp/category
 exports.category = async (req, res, next) => {
-  var list = await models.category.find();
-  res.render("sanpham/listLoaiSp", { list });
+  let dk_sort = null;
+  let type = req.query.type;
+  if(typeof(req.query.sort) != 'undefined'){
+    dk_sort = {name: req.query.type}
+  }
+  var list = await models.category.find().sort(dk_sort);
+  res.render("sanpham/listLoaiSp", { list, type });
 };
 
 // [post] /sp/addcategory

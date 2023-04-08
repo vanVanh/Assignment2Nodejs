@@ -4,14 +4,21 @@ const models = require("../models/account.model");
 exports.listUser = async (req, res, next) => {
   
   let search = null;
+  let dk_sort = null;
+  let type = req.query.type;
+  if(typeof(req.query.sort) != 'undefined'){
+    dk_sort = {username: req.query.type}
+  }
+
   if(typeof(req.query.name) != "undefined"){
     search = {username: req.query.name}
   }
+  
 
-  var account = await models.account.find(search);
+  var account = await models.account.find(search).sort(dk_sort);
 
 
-  res.render("user/listUser", { account});
+  res.render("user/listUser", { account, type});
 };
 
 // [post] /users/add
@@ -82,4 +89,5 @@ exports.deleteAccount = async (req, res, next) => {
 
   res.redirect("/users/");
 };
+
   

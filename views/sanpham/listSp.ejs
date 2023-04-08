@@ -36,7 +36,23 @@
                             <th scope="col">id</th>
                             <th scope="col">name</th>
                             <th scope="col">category</th>
-                            <th scope="col">price</th>
+                            <th scope="col" class="d-flex justify-content-between">price
+                                <div>
+                                    <% if (type==-1) { %>
+                                        <a href="?sort&type=1">
+                                            <i class="bi bi-caret-up-fill"></i>
+                                        </a>
+                                    <% } else if(type == 1) { %>
+                                        <a href="?sort&type=-1">
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </a>
+                                    <% } else{ %>
+                                        <a href="?sort&type=-1">
+                                            <i class="bi bi-caret-down-fill"></i>
+                                        </a>
+                                    <% } %>
+                                </div>
+                            </th>
                             <th scope="col">status</th>
                             <th scope="col">quantity</th>
                             <th scope="col">manufacturer</th>

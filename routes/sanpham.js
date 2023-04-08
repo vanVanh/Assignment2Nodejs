@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var sanPhamCtrl = require('../contronller/sanpham.controller');
+var mdw = require('../middleware/check.middleware')
 
 //product
 router.get('/product', sanPhamCtrl.listSp);
@@ -27,6 +28,5 @@ router.post('/category/edit/:id', sanPhamCtrl.updateCategory);
 
 router.get('/category/delete/:id', sanPhamCtrl.deleteCategory);
 router.post('/category/delete/:id', sanPhamCtrl.deleteCategory);
-
 
 module.exports = router;
