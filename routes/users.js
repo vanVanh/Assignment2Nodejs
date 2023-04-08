@@ -3,8 +3,9 @@ var router = express.Router();
 var userCtrl = require('../contronller/user.controller')
 var mdw = require('../middleware/check.middleware')
 
+router.use(mdw.check_login)
 /* GET users listing. */
-router.get('/',mdw.check_login , userCtrl.listUser);
+router.get('/' , userCtrl.listUser);
 router.get('/add', userCtrl.addUser);
 router.post('/add', userCtrl.addUser);
 

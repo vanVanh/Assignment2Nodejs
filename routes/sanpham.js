@@ -3,8 +3,10 @@ var router = express.Router();
 var sanPhamCtrl = require('../contronller/sanpham.controller');
 var mdw = require('../middleware/check.middleware')
 
+router.use(mdw.check_login)
+
 //product
-router.get('/product', sanPhamCtrl.listSp);
+router.get('/product' , sanPhamCtrl.listSp);
 
 router.get('/addproduct', sanPhamCtrl.addProduct);
 router.post('/addproduct', sanPhamCtrl.addProduct);
