@@ -2,7 +2,7 @@ const model = require('../../models/sanpham.model')
 
 exports.listProduct = async (req, res, next) => {
     try {
-        let list = await model.product.find();
+        let list = await model.product.find().populate('id_category');
         if (list) {
             return res.status(200).json({data: list, msg: 'lấy dữ liệu thành công'});
         }else{

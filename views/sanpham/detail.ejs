@@ -1,19 +1,32 @@
 <%- include('../inc/top') %>
+<div class="container">
+    <div class="row text-center d-flex justify-content-center m-3">
+        <h1>Detail</h1>
+    </div>
+</div>
 
 <div class="container">
-    <div class="row col-12 col-md-8 m-auto mt-5 mb-5 border border-dark-subtle p-5 rounded-5 shadow-lg ">
+    <div class="row col-12 col-md-8 m-auto mb-5 border border-dark-subtle p-5 rounded-5 shadow-lg ">
         name: <%= obj.name %>
+        <br>
+        <hr>
+        <img src="<%= obj.image %>" alt="">
         <br>
         category: <%= obj.id_category.name %>
         <br>
+        <hr>
         price: <%= new Intl.NumberFormat('vi-VN', { style: 'currency' , currency: 'VND'}).format(obj.price) %>
         <br>
+        <hr>
         description: <%= obj.description %>
         <br>
+        <hr>
         status: <%= obj.status %>
         <br>
+        <hr>
         quantity: <%= obj.quantity %>
         <br>
+        <hr>
         manufacturer: <%= obj.manufacturer %>
         <br>
     </div>

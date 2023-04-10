@@ -18,10 +18,7 @@ exports.listSp = async (req, res, next) => {
     search = { id_category: req.query.category };
   }
 
-  var product = await models.product
-    .find(search)
-    .populate("id_category")
-    .sort(dk_sort);
+  var product = await models.product.find(search).populate("id_category").sort(dk_sort);
 
   res.render("sanpham/listSp", { product, category, type });
 };
@@ -31,7 +28,6 @@ exports.addProduct = async (req, res, next) => {
   var list = await models.category.find();
 
   if (req.method == "POST") {
-    // fs.renameSync(req.file.path, './public/uploads' + req.file.originalname)
 
     let obj = new models.product();
     obj.name = req.body.name;
@@ -40,7 +36,8 @@ exports.addProduct = async (req, res, next) => {
     obj.description = req.body.description;
     obj.status = req.body.status;
     obj.quantity = req.body.quantity;
-    obj.image = req.body.image;
+    fs.renameSync(req.file.path, './public/images/' + req.file.originalname);
+    obj.image = 'http://localhost:3000/images/' + req.file.originalname;
     obj.manufacturer = req.body.manufacturer;
 
     try {
@@ -57,7 +54,7 @@ exports.addProduct = async (req, res, next) => {
 // [get] /sp/product/detail/:id
 exports.detail = async (req, res, next) => {
   let idsp = req.params.id;
-  let obj = await models.product.findById(idsp);
+  let obj = await models.product.findById(idsp).populate("id_category");
   console.log(obj);
 
   res.render("sanpham/detail", { obj });
