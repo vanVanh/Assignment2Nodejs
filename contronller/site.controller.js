@@ -33,3 +33,11 @@ exports.login = async (req, res, next) => {
   }
   res.render("login/login", { msg });
 };
+
+exports.logout = (req, res, next) => {
+
+    req.session.userLogin = null
+    console.log("logout successfully");
+    
+    return res.redirect("/login");
+};

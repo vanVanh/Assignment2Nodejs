@@ -5,6 +5,7 @@ var mdw = require('../middleware/check.middleware')
 /* GET home page. */
 router.get('/login', siteCtrl.login);
 router.post('/login', siteCtrl.login);
+router.get('/logout', mdw.check_login, siteCtrl.logout);
 router.get('/', mdw.check_login, siteCtrl.home);
 
 module.exports = router;
