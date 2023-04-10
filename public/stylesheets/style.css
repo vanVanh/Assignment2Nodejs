@@ -1,0 +1,33 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font:"Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.click-here{
+  text-decoration: none;
+  color: black;
+}
+
+.click-here:hover{
+  color: red;
+  text-decoration: underline;
+}
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 32px;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
