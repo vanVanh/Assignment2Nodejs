@@ -1,4 +1,5 @@
 const models = require("../models/sanpham.model");
+const fs = require("fs");
 
 //product
 // [get] /sp/product
@@ -7,17 +8,20 @@ exports.listSp = async (req, res, next) => {
 
   let dk_sort = null;
   let type = req.query.type;
-  if(typeof(req.query.sort) != 'undefined'){
-    dk_sort = {price: req.query.type}
+  if (typeof req.query.sort != "undefined") {
+    dk_sort = { price: req.query.type };
   }
 
   // search theo category
   let search = null;
-  if (typeof (req.query.category) != "undefined") {
+  if (typeof req.query.category != "undefined") {
     search = { id_category: req.query.category };
   }
 
-  var product = await models.product.find(search).populate("id_category").sort(dk_sort);
+  var product = await models.product
+    .find(search)
+    .populate("id_category")
+    .sort(dk_sort);
 
   res.render("sanpham/listSp", { product, category, type });
 };
@@ -26,7 +30,9 @@ exports.listSp = async (req, res, next) => {
 exports.addProduct = async (req, res, next) => {
   var list = await models.category.find();
 
-  if ((req.method = "POST")) {
+  if (req.method == "POST") {
+    // fs.renameSync(req.file.path, './public/uploads' + req.file.originalname)
+
     let obj = new models.product();
     obj.name = req.body.name;
     obj.id_category = req.body.category;
@@ -50,41 +56,34 @@ exports.addProduct = async (req, res, next) => {
 
 // [get] /sp/product/detail/:id
 exports.detail = async (req, res, next) => {
+  let idsp = req.params.id;
+  let obj = await models.product.findById(idsp);
+  console.log(obj);
 
-    let idsp = req.params.id
-    let obj = await models.product.findById(idsp)
-    console.log(obj);
-
-    res.render("sanpham/detail", {obj});
+  res.render("sanpham/detail", { obj });
 };
 
 // [get] /sp/product/edit/:id
-exports.editProduct= async (req, res, next) => {
-
+exports.editProduct = async (req, res, next) => {
   var list = await models.category.find();
 
   let id = req.params.id;
   let obj = await models.product.findById(id);
-  console.log(obj.status)
-  let status = [
-    {name: 'new'},
-    {name: 'used'}
-  ]
+  console.log(obj.status);
+  let status = [{ name: "new" }, { name: "used" }];
 
-  res.render("sanpham/editProduct", {list, obj, status});
+  res.render("sanpham/editProduct", { list, obj, status });
 };
 
 // [post] /sp/product/edit/:id
-exports.updateProduct= async (req, res, next) => {
-
+exports.updateProduct = async (req, res, next) => {
   // var list = await models.category.find();
 
   let id = req.params.id;
   // let obj = await models.product.findById(id);
   // let status = [{name: 'New'},{name: 'Used'}]
 
-  if(req.method == 'POST'){
-    
+  if (req.method == "POST") {
     let updateData = new models.product();
     updateData.name = req.body.name;
     updateData.id_category = req.body.category;
@@ -94,42 +93,39 @@ exports.updateProduct= async (req, res, next) => {
     updateData.quantity = req.body.quantity;
     updateData.image = req.body.image;
     updateData.manufacturer = req.body.manufacturer;
-    updateData._id = id
+    updateData._id = id;
     try {
-      await models.product.findByIdAndUpdate({_id: id}, updateData);
+      await models.product.findByIdAndUpdate({ _id: id }, updateData);
       console.log(updateData);
     } catch (error) {
       console.log(error);
     }
   }
 
-  res.redirect('/sp/product')
+  res.redirect("/sp/product");
 };
-
 
 exports.deleteProduct = async (req, res, next) => {
   let id = req.params.id;
   console.log(id);
 
   try {
-      await models.product.findByIdAndDelete({_id: id});
-      console.log("delete successfully");
+    await models.product.findByIdAndDelete({ _id: id });
+    console.log("delete successfully");
   } catch {
-      console.log('Lỗi server!');
+    console.log("Lỗi server!");
   }
 
-
-
-  res.redirect('/sp/product')
-}
+  res.redirect("/sp/product");
+};
 
 // category
 // [get] /sp/category
 exports.category = async (req, res, next) => {
   let dk_sort = null;
   let type = req.query.type;
-  if(typeof(req.query.sort) != 'undefined'){
-    dk_sort = {name: req.query.type}
+  if (typeof req.query.sort != "undefined") {
+    dk_sort = { name: req.query.type };
   }
   var list = await models.category.find().sort(dk_sort);
   res.render("sanpham/listLoaiSp", { list, type });
@@ -137,8 +133,7 @@ exports.category = async (req, res, next) => {
 
 // [post] /sp/addcategory
 exports.addCategory = async (req, res, next) => {
-
-  if ((req.method = "POST")) {
+  if (req.method == "POST") {
     let obj = new models.category();
     obj.name = req.body.name;
 
@@ -154,24 +149,22 @@ exports.addCategory = async (req, res, next) => {
 
 // [get] /sp/category/edit/:id
 exports.editCategory = async (req, res, next) => {
-
   let id = req.params.id;
 
-  let obj = await models.category.findById(id)
-  
-  res.render("sanpham/editCategory", {obj});
+  let obj = await models.category.findById(id);
+
+  res.render("sanpham/editCategory", { obj });
 };
 // [post] /sp/category/edit/:id
 exports.updateCategory = async (req, res, next) => {
-
   let id = req.params.id;
-  if ((req.method = "POST")) {
+  if (req.method == "POST") {
     let obj = new models.category();
     obj.name = req.body.name;
     obj._id = id;
 
     try {
-      await models.category.findByIdAndUpdate({_id: id}, obj)
+      await models.category.findByIdAndUpdate({ _id: id }, obj);
       console.log(newData);
     } catch (error) {
       console.log(error);
@@ -181,14 +174,13 @@ exports.updateCategory = async (req, res, next) => {
 };
 // [post] /sp/category/delete/:id
 exports.deleteCategory = async (req, res, next) => {
-
   let id = req.params.id;
 
   try {
-    await models.category.findByIdAndDelete({_id: id})
+    await models.category.findByIdAndDelete({ _id: id });
   } catch (error) {
     console.log(error);
   }
-  
+
   res.redirect("/sp/category");
 };

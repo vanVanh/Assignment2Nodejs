@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var sanPhamCtrl = require('../contronller/sanpham.controller');
 var mdw = require('../middleware/check.middleware')
+var multer = require('multer');
+var uploader = multer( { dest: './tmp'} );
 
 router.use(mdw.check_login)
 
@@ -9,7 +11,7 @@ router.use(mdw.check_login)
 router.get('/product' , sanPhamCtrl.listSp);
 
 router.get('/addproduct', sanPhamCtrl.addProduct);
-router.post('/addproduct', sanPhamCtrl.addProduct);
+router.post('/addproduct', uploader.single('image'), sanPhamCtrl.addProduct);
 
 router.get('/product/detail/:id', sanPhamCtrl.detail);
 
