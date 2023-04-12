@@ -18,25 +18,21 @@ const userSchema = new db.mongoose.Schema(
 );
 
 //hamf taoj token đăng nhập với api
-userSchema.methods.generateAuthToken = async () => {
-  const user = this;
-  console.log(user);
-  const token = jwt.sign(
-    {
-      _id: user._id,
-      username: user.username,
-    },
-    chuoi_ky_tu_bi_mat
-  );
+userSchema.methods.generateAuthToken = async function () {
+
+  const user = this
+  console.log(user)
+  const token = jwt.sign({_id: user._id, username: user.username}, chuoi_ky_tu_bi_mat)
+  // user.tokens = user.tokens.concat({token}) // code này dành cho nhiều token, ở demo này dùng 1 token
   user.token = token;
-  await user.save();
-  return token;
-};
+  await user.save()
+  return token
+}
 
 //hàm tìm kiếm user theo id
 //dùng để đăng nhập
 userSchema.statics.findByCredentials = async (username, password) => {
-  const user = await account.findOne({ username });
+  const user = await account.findOne({username: username})
   if (!user) {
     throw new Error({ error: "không tồn tại user" });
   }
